@@ -1,0 +1,50 @@
+# Python - General
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+*.env
+*.venv/
+
+# Ignore Virtual Environments
+backend/.venv/
+
+
+# Ignore Python cache files
+.mypy_cache/
+.coverage
+*.egg-info
+dist/
+build/
+
+# Frontend - Node
+frontend/store-ui/node_modules/
+frontend/admin-ui/node_modules/
+
+# Ignore build files for frontend
+frontend/store-ui/dist/
+frontend/admin-ui/dist/
+frontend/store-ui/.turbo/
+frontend/admin-ui/.turbo/
+frontend/store-ui/.vite/
+frontend/admin-ui/.vite/
+
+# Ignore environment files
+frontend/store-ui/.env
+frontend/admin-ui/.env
+
+# Ignore dependency lock files (optional, if using package managers)
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore editor config files (optional)
+.vscode/
+.idea/
