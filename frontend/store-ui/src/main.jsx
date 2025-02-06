@@ -1,3 +1,4 @@
+import '@mantine/core/styles.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -6,7 +7,7 @@ import { MantineProvider } from '@mantine/core'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <MantineProvider theme={{ colorScheme: 'light' }} withGlobalStyles withNormalizeCSS>
+    <MantineProvider forceColorScheme='dark' withGlobalStyles withNormalizeCSS>
       <App />
     </MantineProvider>
   </StrictMode>,
