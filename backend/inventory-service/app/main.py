@@ -1,9 +1,20 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 import json
 
 app = FastAPI()
 
 DB_FILE = "potions.json"
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  
+    allow_credentials=True,
+    allow_methods=["*"], 
+    allow_headers=["*"], 
+)
+
 
 # Load potions
 def load_potions():
@@ -19,13 +30,13 @@ def save_potions(potions):
         json.dump(potions, file, indent=4)
 
 
-@app.get("/potions")
+@app.get("/api/potions")
 def get_potions():
     potions = load_potions()
-    return {"potions":potions}
+    return JSONResponse(content=potions)
 
 
-@app.post("/potions")
+@app.post("/api/potions")
 def add_potion(potion:dict):
     potions = load_potions()
     potion["id"] = max((p["id"] for p in potions), default=0) + 1

@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "Healing Tonic",
+        "price": 50,
+        "quantity": 2,
+        "effect": "Restores Health"
+    },
+    {
+        "id": 2,
+        "name": "Turbo Force",
+        "price": 150,
+        "quantity": 10,
+        "effect": "Grants Turbo boost"
+    },
+    {
+        "id": 3,
+        "name": "Invisibility Shake",
+        "price": 40,
+        "quantity": 2,
+        "effect": "Grants Invisibility Cloak"
+    }
+]
