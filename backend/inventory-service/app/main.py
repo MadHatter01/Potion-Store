@@ -1,6 +1,8 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
+from database import sessionLocal, Potion
 import json
 
 app = FastAPI()
@@ -14,6 +16,13 @@ app.add_middleware(
     allow_methods=["*"], 
     allow_headers=["*"], 
 )
+
+def get_db():
+    db = sessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 # Load potions
@@ -29,6 +38,11 @@ def save_potions(potions):
     with open(DB_FILE, "w") as file:
         json.dump(potions, file, indent=4)
 
+
+
+@app.get("/potions")
+def get_db_potions(db: Session = Depends(get_db)):
+    return db.query(Potion).all()
 
 @app.get("/api/potions")
 def get_potions():

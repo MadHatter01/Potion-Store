@@ -1,6 +1,8 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 import json
+from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
+from database import sessionLocal, Potion
 
 
 
@@ -19,6 +21,12 @@ app.add_middleware(
 INVENTORY_URL = "http://localhost:8001"
 
 DB_FILE = "potions.json"
+def get_db():
+    db = sessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # Load potions
 def load_potions():
@@ -48,11 +56,13 @@ def get_potions():
 #     return {"potion":potion_id}
 
 @app.post("/buy/{potion_id}")
-def buy_potion(potion_id:int):
-    potions = load_potions()
-    print('triggered', potion_id, type(potion_id), potions)
+def buy_potion(potion_id:int, db:Session = Depends(get_db)):
+    # this is for the json file
+    # potions = load_potions()
+    # potion = next((p for p in potions if p["id"]== int(potion_id)), None)
 
-    potion = next((p for p in potions if p["id"]== int(potion_id)), None)
+    # this is for the db
+    potion =db.query(Potion).filter(Potion.id == potion_id).first()
 
     if not potion:
         raise HTTPException(status_code=404, detail="Potion not found")
@@ -61,7 +71,7 @@ def buy_potion(potion_id:int):
         raise HTTPException(status_code=400, detail="Out of stock!")
     
     potion["quantity"] -=1
-    save_potions(potions)
+    db.commit()
     return {"message": "Potion purchased!", "potion":potion}
 
 

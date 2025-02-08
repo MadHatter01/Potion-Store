@@ -10,7 +10,7 @@
         "id": 2,
         "name": "Turbo Force",
         "price": 150,
-        "quantity": 10,
+        "quantity": 8,
         "effect": "Grants Turbo boost"
     },
     {
