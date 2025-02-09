@@ -40,10 +40,11 @@ function App() {
     <h2>Potion Store</h2>
     <Grid gutter="lg">
       {potions.map((potion) => (
-        <Grid.Col  span={{ base: 12, md: 6, lg: 5 }} key={potion.id}>
+        <Grid.Col  span={{ base: 12, md: 6, lg: 4 }} key={potion.id}>
           <Card shadow="sm" padding="lg">
             <Card.Section>
-              <Image src='https://placehold.co/200x200' alt={potion.name} />
+              {/* Photo by FlyD on Unsplash https://unsplash.com/photos/clear-glass-bottle-with-red-liquid-6ShUh79l1Vw?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash*/}
+              <Image src={`unsplash-${potion.id}.jpg`}  alt={potion.name} />
             </Card.Section>
             <Group position="apart" style={{ marginBottom: 10, marginTop: 10 }}>
               <Text weight={500}>{potion.name}</Text>
@@ -61,7 +62,7 @@ function App() {
              
             </Group>
             <Group position="apart" style={{ marginTop: 14 }}>
-            <Button onClick={()=> handlePurchase(potion.id)}>Stock up!</Button>
+            <Button onClick={()=> handlePurchase(potion.id)}>Buy</Button>
              
             </Group>
 
