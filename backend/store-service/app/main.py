@@ -72,7 +72,7 @@ def buy_potion(potion_id:int, db:Session = Depends(get_db)):
 
     potion.quantity -=1
     db.commit()
-    return {"message": "Potion purchased!", "potion":potion}
+    return {"message": "Potion purchased!", "potion_price":potion.price}
 
 
 

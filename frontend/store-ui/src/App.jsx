@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import {Card, Container, Image, Grid, Text, Group, Badge, Button} from '@mantine/core';
+import {Card, Container, Image, Grid, Text, Group, Badge, Button, AppShell} from '@mantine/core';
 import axios from 'axios';
 
 function App() {
   const [potions, setPotions] = useState([]);
+  const [potionCount, setPotionCount] = useState(0);
+  const [funds, setFunds] = useState(500);
 
   useEffect(()=>{
     const fetchPotions = async ()=>{
       try{
-        const response = await axios.get("http://localhost:8001/potions");
+        const response = await axios.get("http://localhost:8000/api/potions");
         setPotions(response.data);
         console.log('response', response)
       }
@@ -24,10 +26,13 @@ function App() {
   const handlePurchase = async(potion_id)=>{
     try{
       const response = await axios.post(`http://localhost:8002/buy/${potion_id}`);
-      console.log(response.data)
 
-      const updatedPotions = await axios.get("http://localhost:8001/potions");
-      setPotions(updatedPotions.data)
+      const updatedPotions = await axios.get("http://localhost:8000/api/potions");
+      setPotions(updatedPotions.data);
+      console.log(response.data)
+      setFunds(funds - response.data.potion_price)
+
+      setPotionCount(potionCount+1);
   
     }
     catch(error){
@@ -36,8 +41,28 @@ function App() {
   }
 
   return (
-    <Container>
+    <AppShell
+    header={{height:60}}
+    padding="md">
+       <AppShell.Header>
+    <Group position="apart" px="md" py="md">
+      <Group>
+        <Text weight={500}>Potions</Text>
+        <Badge color="pink" variant="filled">{potionCount}</Badge>
+      </Group>
+      <Group>
+        <Text weight={500}>Tokens</Text>
+        <Badge color="pink" variant="filled">{funds}</Badge>
+      </Group>
+    </Group>
+  </AppShell.Header>
+      
+  
+   
+      <AppShell.Main>
+      <Container>
     <h2>Potion Store</h2>
+  
     <Grid gutter="lg">
       {potions.map((potion) => (
         <Grid.Col  span={{ base: 12, md: 6, lg: 4 }} key={potion.id}>
@@ -72,6 +97,9 @@ function App() {
       ))}
     </Grid>
   </Container>
+  </AppShell.Main>
+    </AppShell>
+
   )
 }
 

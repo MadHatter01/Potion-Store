@@ -40,14 +40,14 @@ def save_potions(potions):
 
 
 
-@app.get("/potions")
+@app.get("/api/potions")
 def get_db_potions(db: Session = Depends(get_db)):
     return db.query(Potion).all()
 
-@app.get("/api/potions")
-def get_potions():
-    potions = load_potions()
-    return JSONResponse(content=potions)
+# @app.get("/api/potions")
+# def get_potions():
+#     potions = load_potions()
+#     return JSONResponse(content=potions)
 
 
 @app.post("/api/potions")
