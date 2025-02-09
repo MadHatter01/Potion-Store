@@ -58,6 +58,18 @@ def add_potion(potion:dict):
     save_potions(potions)
     return {"message": "Potion added!", "potions": potion}
 
+@app.post("/api/restock/{potion_id}/{amount}")
+def restock_potion(potion_id: int, amount: int, db: Session = Depends(get_db)):
+    potion = db.query(Potion).filter(Potion.id == potion_id).first()
+
+    if not potion:
+        raise HTTPException(status_code=404, detail="Potion not found")
+    
+    potion.quantity += amount
+    db.commit()
+    db.refresh(potion)
+    return {"message":"Potion restocked!", "potion": {"id": potion.id, "name": potion.name, "quantity": potion.quantity}}
+
 
 if __name__ == "__main__":
     import uvicorn
