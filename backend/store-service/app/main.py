@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 import json
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
-from database import sessionLocal, Potion
+from database.database import sessionLocal, Potion
 
 
 
@@ -67,10 +67,10 @@ def buy_potion(potion_id:int, db:Session = Depends(get_db)):
     if not potion:
         raise HTTPException(status_code=404, detail="Potion not found")
     
-    if potion["quantity"] <= 0:
+    if potion.quantity <= 0:
         raise HTTPException(status_code=400, detail="Out of stock!")
-    
-    potion["quantity"] -=1
+
+    potion.quantity -=1
     db.commit()
     return {"message": "Potion purchased!", "potion":potion}
 

@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from database import sessionLocal, Potion
+from database.database import sessionLocal, Potion
 import json
 
 app = FastAPI()

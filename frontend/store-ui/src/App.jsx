@@ -9,8 +9,9 @@ function App() {
   useEffect(()=>{
     const fetchPotions = async ()=>{
       try{
-        const response = await axios.get("http://localhost:8001/api/potions");
+        const response = await axios.get("http://localhost:8001/potions");
         setPotions(response.data);
+        console.log('response', response)
       }
       catch(error){
         console.error('error fetching', error);
@@ -19,6 +20,20 @@ function App() {
 
     fetchPotions();
   }, []);
+
+  const handlePurchase = async(potion_id)=>{
+    try{
+      const response = await axios.post(`http://localhost:8002/buy/${potion_id}`);
+      console.log(response.data)
+
+      const updatedPotions = await axios.get("http://localhost:8001/potions");
+      setPotions(updatedPotions.data)
+  
+    }
+    catch(error){
+      console.error(error)
+    }
+  }
 
   return (
     <Container>
@@ -46,7 +61,7 @@ function App() {
              
             </Group>
             <Group position="apart" style={{ marginTop: 14 }}>
-            <Button >Stock up!</Button>
+            <Button onClick={()=> handlePurchase(potion.id)}>Stock up!</Button>
              
             </Group>
 
