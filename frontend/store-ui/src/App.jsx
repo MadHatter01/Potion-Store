@@ -25,14 +25,15 @@ function App() {
 
   const handlePurchase = async(potion_id)=>{
     try{
-      const response = await axios.post(`http://localhost:8002/buy/${potion_id}`);
+      const response = await axios.post(`http://localhost:8000/api/buy/${potion_id}`);
 
       const updatedPotions = await axios.get("http://localhost:8000/api/potions");
       setPotions(updatedPotions.data);
       console.log(response.data)
       setFunds(funds - response.data.potion_price)
 
-      setPotionCount(potionCount+1);
+      setPotionCount((prev) => prev + 1);
+
   
     }
     catch(error){

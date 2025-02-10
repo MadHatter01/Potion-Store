@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+import httpx
 
 app = FastAPI()
 
@@ -20,9 +21,19 @@ def get_status():
     return {"status":"ok"}
 
 @app.get("/api/potions")
-def get_potions():
-    response = requests.get(f"{INVENTORY_SERVICE_URL}/api/potions")
-    print(response.json())
+async def get_potions():
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"{INVENTORY_SERVICE_URL}/api/potions")
+        response.raise_for_status()
+    return response.json()
+
+@app.post("/api/buy/{potion_id}")
+async def buy_potion(potion_id: int):
+    async with httpx.AsyncClient() as client:
+        response = await client.post(f"{STORE_SERVICE_URL}/buy/{potion_id}")
+    if response.status_code !=200:
+        raise HTTPException(status_code=response.status_code, detail=response.json())
+    
     return response.json()
 
 

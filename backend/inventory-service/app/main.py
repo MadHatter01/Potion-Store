@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from database.database import sessionLocal, Potion
 import json
 
+
 app = FastAPI()
 
 DB_FILE = "potions.json"
