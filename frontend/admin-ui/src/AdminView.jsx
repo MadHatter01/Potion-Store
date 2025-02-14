@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios"
-import { Container, Paper, Title, Button, Table, Group } from "@mantine/core";
+import { Paper, Title, Button, Table } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
 
 const AdminView = () =>{
     const [potions, setPotions] = useState([]);
-    const fetchPotions = async()=>{
+    const fetchPotions = useCallback(async()=>{
         try{
             const response = await axios.get("http://localhost:8001/api/potions");
             setPotions(response.data);
@@ -14,11 +14,11 @@ const AdminView = () =>{
         } catch(error){
             console.error("Error: ", error);
         }
-    }
+    }, []);
 
     useEffect(()=>{
         fetchPotions();
-    }, []);
+    }, [fetchPotions]);
  
     const handleRestock = async(potion_id)=>{
         try{
@@ -28,8 +28,7 @@ const AdminView = () =>{
             message:`Potion ${potion_id} is restocked `,
             color: 'green'
         })
-        fetchPotions();
-        reset();
+        await fetchPotions();
         }
         catch(error){
             console.error(error);

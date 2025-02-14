@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"
-import { Container, NumberInput, Paper, TextInput, Title, Stack, Button, Table, Group } from "@mantine/core";
+import { NumberInput, Paper, TextInput, Title, Stack, Button, Table, Group } from "@mantine/core";
 import {useForm} from "react-hook-form";
 import { notifications } from "@mantine/notifications";
 
@@ -22,7 +22,6 @@ const AdminInventoryAdd = () =>{
     const addPotion = async (data)=>{
         try{
         await axios.post('http://localhost:8001/api/potions', data)
-        console.log(data)
         notifications.show({
             title:"Potion added!",
             message: `Added to inventory`,
