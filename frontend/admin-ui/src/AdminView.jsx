@@ -21,11 +21,19 @@ const AdminView = () =>{
     }, []);
  
     const handleRestock = async(potion_id)=>{
+        try{
+        await axios.put(`http://localhost:8001/api/potions/restock/${potion_id}`);
         notifications.show({
             title: 'Potion restocked!',
             message:`Potion ${potion_id} is restocked `,
             color: 'green'
         })
+        fetchPotions();
+        reset();
+        }
+        catch(error){
+            console.error(error);
+        }
     }
     return (
      
