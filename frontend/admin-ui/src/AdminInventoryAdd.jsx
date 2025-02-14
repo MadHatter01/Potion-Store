@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"
-import { Container, NumberInput, Paper, TextInput, Title, Stack, Button, Table } from "@mantine/core";
+import { Container, NumberInput, Paper, TextInput, Title, Stack, Button, Table, Group } from "@mantine/core";
 import {useForm} from "react-hook-form";
 import { notifications } from "@mantine/notifications";
 
 
-const AdminPanel = () =>{
+const AdminInventoryAdd = () =>{
     const {register, handleSubmit, setValue, reset} = useForm();
     const [potions, setPotions] = useState([]);
     const fetchPotions = async()=>{
@@ -18,9 +18,7 @@ const AdminPanel = () =>{
         }
     }
 
-    useEffect(()=>{
-        fetchPotions();
-    }, []);
+
     const addPotion = async (data)=>{
         try{
         await axios.post('http://localhost:8001/api/potions', data)
@@ -37,15 +35,17 @@ const AdminPanel = () =>{
             console.error(error);
         }
     }
+
+    
     return (
-        <>
-            <Container size="lg">
-                <Title order={2} align="center" mb="lg">
-                    Potion Store - Admin UI
-                </Title>
-                <Paper shadow="md" p="md" withBorder mb="lg">
+     
+            <>
+             
+             
+                <Paper shadow="md" p="md" withBorder mb="lg" style={{width:'100%'}}>
                     <Title order={3} mb="md">Add a new Potion</Title>
                 <form onSubmit={handleSubmit(addPotion)}>
+                    
                     <Stack>
                         <TextInput label="Potion Name" {...register("name")} required />
                         <NumberInput label="Price" {...register("price", {valueAsNumber: true})} onChange={(value)=> setValue("price", value)} required />
@@ -55,32 +55,11 @@ const AdminPanel = () =>{
                     </Stack>
                 </form>
                 </Paper>
-                <Paper shadow="md" p="md" withBorder>
-                    <Title order={3} mb="md"> Available Potions </Title>
-                    <Table striped highlightOnHover>
-                        <Table.Thead>
-                            <Table.Tr>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Effect</th>
-                            </Table.Tr>
-                        </Table.Thead>
-                        <Table.Tbody>
-                            {potions.map((potion)=>(
-                                <Table.Tr key={potion.id}>
-                                    <Table.Td>{potion.name}</Table.Td>
-                                    <Table.Td>{potion.price}</Table.Td>
-                                    <Table.Td>{potion.quantity}</Table.Td>
-                                    <Table.Td>{potion.effect}</Table.Td>
-                                </Table.Tr>
-                            ))}
-                        </Table.Tbody>
-                    </Table>
-                </Paper>
-            </Container>
-        </>
+           
+         
+            </>
+        
     )
 }
 
-export default AdminPanel;
+export default AdminInventoryAdd;
