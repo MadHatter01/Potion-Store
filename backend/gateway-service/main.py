@@ -7,7 +7,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174", "http://localhost:5173"],  
+    allow_origins=["http://localhost:5173"],  
     allow_credentials=True,
     allow_methods=["*"], 
     allow_headers=["*"], 
@@ -31,15 +31,6 @@ async def get_potions():
 async def buy_potion(potion_id: int):
     async with httpx.AsyncClient() as client:
         response = await client.post(f"{STORE_SERVICE_URL}/buy/{potion_id}")
-    if response.status_code !=200:
-        raise HTTPException(status_code=response.status_code, detail=response.json())
-    
-    return response.json()
-
-@app.put("/api/potions/restock/{potion_id}")
-async def restock_potion(potion_id: int):
-    async with httpx.AsyncClient() as client:
-        response = await client.post(f"{INVENTORY_SERVICE_URL}/api/potions/restock/{potion_id}/1")
     if response.status_code !=200:
         raise HTTPException(status_code=response.status_code, detail=response.json())
     

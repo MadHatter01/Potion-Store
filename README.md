@@ -45,7 +45,7 @@ The frontend consists of two separate interfaces:
 ## Getting Started  
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/MadHatter01/Potion-Store.git
+   git clone https://github.com/your-repo/potion-store.git
    cd potion-store
    ```
 2. Start backend services:
